@@ -1,2 +1,2 @@
 # TextEditor
-Used HTML, CSS, Js with Document Object Model
+Used HTML, CSS, JavaScript with Document Object Model
