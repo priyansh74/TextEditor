@@ -50,3 +50,14 @@ function f9(){
 
 
 }
+
+function f10() {
+  const content = document.getElementById("textarea1").value;
+  var save = document.createElement("a");
+  save.setAttribute("href", "data:text/plain;charset=umenttttf-8," + encodeURI(content));
+  save.setAttribute("download", content.slice(0, 17) + ".txt");
+
+  document.body.appendChild(save);
+  save.click();
+  document.body.removeChild(save);
+}
