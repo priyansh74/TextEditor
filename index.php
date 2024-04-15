@@ -8,20 +8,18 @@ if (!isset($_SESSION["user"])) {
 // Include database connection
 include_once 'database.php';
 
-// Save text to database
-if(isset($_POST['save'])){
-    $text = $_POST['text'];
-    $username = $_SESSION["user"];
-    $query = "UPDATE users SET text_data='$text' WHERE id='$username'";
-    mysqli_query($conn, $query);
-}
-
-// Load text from database
-$username = $_SESSION["user"];
-$query = "SELECT text_data FROM users WHERE id='$username'";
+$username = $_SESSION["email"];
+$query = "SELECT text_data FROM users WHERE email='$username'";
 $result = mysqli_query($conn, $query);
-$row = mysqli_fetch_assoc($result);
-$text_from_db = $row['text_data'] ?? '';
+
+// Check if the query returned a result
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $text_from_db = $row['text_data'];
+} else {
+    // Set a default value if no data found
+    $text_from_db = '';
+}
 ?>
 
 <!DOCTYPE html>
@@ -64,10 +62,6 @@ h0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" />
           <button type="button" onclick="f8()" class="btn shadow-sm btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Capitalize Text">Capitalize</button>
           <button type="button" onclick="f9()" class="btn shadow-sm btn-outline-primary side" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Clear Text</button>
           <button type="button" onclick="f10()" class="btn shadow-sm btn-outline-primary side" data-toggle="tooltip" data-placement="top" title="Download">Download</button>
-          <form method="post">
-            <button type="submit" name="save" class="btn shadow-sm btn-outline-primary side">Save</button>
-            <button type="submit" name="load" class="btn shadow-sm btn-outline-primary side">Load</button>
-          </form>
         </div>
       </div>
     </div>
@@ -77,8 +71,12 @@ h0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" />
       </div>
       <div class="col-md-6 col-sm-9">
         <div class="flex-box">
-          <!-- Added name attribute for the textarea -->
-          <textarea id="textarea1" class="input shadow" name="text" rows="15" cols="100" placeholder="Your text here "><?php echo $text_from_db; ?></textarea>
+          <form method="post">
+            <textarea id="textarea1" class="input shadow" name="text" rows="15" cols="100" placeholder="Your text here"><?php echo $text_from_db; ?></textarea>
+            <button type="submit" name="save" class="btn shadow-sm btn-outline-primary side">Save</button>
+            <button type="submit" name="load" class="btn shadow-sm btn-outline-primary side">Load</button>
+          </form>
+
         </div>
       </div>
       <div class="col-md-3">
@@ -92,3 +90,23 @@ h0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" />
 </body>
 
 </html>
+
+<?php
+
+// Save text to database
+if(isset($_POST['save'])){
+  $text = $_POST['text']; // Accessing textarea value using $_POST['text']
+  $username = $_SESSION["email"];
+  $query = "UPDATE users SET text_data='$text' WHERE email='$username'";
+  mysqli_query($conn, $query);
+}
+
+// Load text from database
+$username = $_SESSION["email"]; // Assuming $_SESSION["user"] contains email
+$query = "SELECT text_data FROM users WHERE email='$username'";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+$text_from_db = $row['text_data'] ?? '';
+?>
+
+
