@@ -51,7 +51,6 @@ h0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" />
     <div class="flex-box">
       <div class="row">
         <div class="col">
-           <label>Current User: <?php echo $_SESSION["user"]; ?></label>
           <button type="button" onclick="f1()" class=" shadow-sm btn btn-outline-secondary" data-toggle="tooltip" data-placement="top" title="Bold Text">Bold</button>
           <button type="button" onclick="f2()" class="shadow-sm btn btn-outline-success" data-toggle="tooltip" data-placement="top" title="Italic Text">Italic</button>
           <button type="button" onclick="f3()" class=" shadow-sm btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Left Align"><i class="fas fa-align-left"></i></button>
